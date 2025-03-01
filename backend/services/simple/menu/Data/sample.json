@@ -1,0 +1,488 @@
+{
+    "Nasi_Lemak_Ayam_Taliwang": {
+        "Chicken_Dishes": {
+            "Nasi_Lemak_Ayam_Taliwang": {
+                "desc": "Signature nasi lemak featuring grilled chicken marinated in traditional Ayam Taliwang spices, served with fragrant coconut rice and accompaniments.",
+                "price": "6.50"
+            },
+            "Ayam_Penyet": {
+                "desc": "Smashed fried chicken with sambal and rice.",
+                "price": "7.00"
+            },
+            "Soto_Ayam": {
+                "desc": "Spicy turmeric chicken soup with rice.",
+                "price": "6.50"
+            },
+            "Ayam_Bakar": {
+                "desc": "Grilled chicken with sweet soy glaze.",
+                "price": "7.20"
+            }
+        },
+        "Noodles": {
+            "Mie_Goreng": {
+                "desc": "Indonesian fried noodles with egg and vegetables.",
+                "price": "5.80"
+            },
+            "Bakso": {
+                "desc": "Beef meatball soup with noodles.",
+                "price": "6.00"
+            }
+        },
+        "Rice": {
+            "Nasi_Goreng": {
+                "desc": "Fried rice with shrimp paste and chili.",
+                "price": "6.30"
+            },
+            "Lontong_Sayur": {
+                "desc": "Compressed rice cakes served with vegetable curry.",
+                "price": "5.50"
+            }
+        },
+        "Curry": {
+            "Rendang": {
+                "desc": "Slow-cooked beef in coconut milk curry.",
+                "price": "8.50"
+            }
+        },
+        "Vegetarian": {
+            "Gado_Gado": {
+                "desc": "Boiled vegetables with peanut sauce.",
+                "price": "5.50"
+            },
+            "Tempeh_Goreng": {
+                "desc": "Fried tempeh served with spicy sambal.",
+                "price": "4.50"
+            }
+        }
+    },
+    "Daijoubu": {
+        "Pasta": {
+            "Mentaiko_Cream_Pasta": {
+                "desc": "Creamy pasta tossed in mentaiko (cod roe) sauce, topped with tempura bits, bonito flakes, ebiko, and an onsen egg.",
+                "price": "9.90"
+            }
+        },
+        "Curry": {
+            "Curry_Katsu_Don": {
+                "desc": "Breaded and fried pork cutlet served over rice with rich Japanese curry.",
+                "price": "11.90"
+            },
+            "Chicken_Katsu_Don": {
+                "desc": "Crispy chicken cutlet over rice.",
+                "price": "10.50"
+            },
+            "Unagi_Don": {
+                "desc": "Grilled eel over sushi rice.",
+                "price": "15.00"
+            }
+        },
+        "Snacks": {
+            "Mentaiko_Fries": {
+                "desc": "Crispy fries drizzled generously with savory mentaiko sauce.",
+                "price": "7.50"
+            },
+            "Takoyaki": {
+                "desc": "Octopus-filled batter balls with mayo.",
+                "price": "6.80"
+            },
+            "Katsu_Sando": {
+                "desc": "Tonkatsu sandwich with cabbage slaw.",
+                "price": "8.00"
+            },
+            "Edamame": {
+                "desc": "Steamed soybeans sprinkled with sea salt.",
+                "price": "4.00"
+            }
+        },
+        "Noodles": {
+            "Tempura_Udon": {
+                "desc": "Thick noodles with shrimp tempura.",
+                "price": "9.00"
+            },
+            "Shoyu_Ramen": {
+                "desc": "Soy-based broth with chashu pork.",
+                "price": "10.50"
+            },
+            "Yakisoba": {
+                "desc": "Stir-fried noodles with vegetables and pork.",
+                "price": "8.50"
+            }
+        }
+    },
+    "Khoon_Coffeehouse_Express": {
+        "Noodles": {
+            "Pad_Thai": {
+                "desc": "Stir-fried rice noodles with peanuts.",
+                "price": "6.50"
+            },
+            "Khao_Soi": {
+                "desc": "Northern Thai curry noodle soup with crispy egg noodles.",
+                "price": "7.00"
+            }
+        },
+        "Rice": {
+            "Thai_Basil_Chicken_Rice": {
+                "desc": "Spicy chicken with jasmine rice.",
+                "price": "6.00"
+            },
+            "Tomato_Seafood_Baked_Rice_Set": {
+                "desc": "Baked rice in tangy tomato sauce with prawns and scallops, served with a complimentary drink.",
+                "price": "6.50"
+            }
+        },
+        "Curry": {
+            "Green_Curry_Chicken": {
+                "desc": "Coconut milk curry with bamboo shoots.",
+                "price": "7.00"
+            },
+            "Tom_Yum_Goong": {
+                "desc": "Hot-and-sour shrimp soup.",
+                "price": "7.50"
+            },
+            "Massaman_Curry": {
+                "desc": "Rich and mild curry with potatoes and beef.",
+                "price": "8.00"
+            }
+        },
+        "Bread": {
+            "Lotus_Biscoff_Yaowarat_Bun": {
+                "desc": "Soft Thai-style bun filled with creamy Lotus Biscoff spread.",
+                "price": "2.50"
+            },
+            "Honey_Butter_Yaowarat_Bun": {
+                "desc": "Fluffy bun infused with sweet honey butter.",
+                "price": "2.40"
+            }
+        },
+        "Waffles": {
+            "Caramel": {
+                "desc": "A rich and buttery caramel drizzle, perfect for those who love a sweet and slightly salty flavor",
+                "price": 3
+            },
+            "Chocolate": {
+                "desc": "A classic choice with smooth, velvety chocolate topping for all the chocolate lovers",
+                "price": 2
+            },
+            "Peanut": {
+                "desc": "A crunchy and nutty option, adding a savory twist to your waffles",
+                "price": 2
+            }
+        }
+    },
+    "Supergreen": {
+        "Bowls": {
+            "Teriyaki_Chicken_Rice": {
+                "desc": "Organic brown rice topped with teriyaki chicken thigh, sweet corn, green pepper, and a hard-boiled egg.",
+                "price": "7.20"
+            },
+            "Quinoa_Salad_Bowl": {
+                "desc": "Kale, quinoa, roasted veggies.",
+                "price": "8.50"
+            },
+            "Grilled_Salmon_Bowl": {
+                "desc": "Salmon, brown rice, avocado.",
+                "price": "9.00"
+            },
+            "Vegan_Buddha_Bowl": {
+                "desc": "Mixed greens, chickpeas, roasted sweet potato, tahini dressing.",
+                "price": "8.00"
+            }
+        },
+        "Pasta": {
+            "Smoked_Duck_Pasta": {
+                "desc": "Organic fusilli pasta with seasoned smoked duck, cherry tomatoes, sautéed mushrooms, and Japanese cucumber.",
+                "price": "8.00"
+            },
+            "Spaghetti_Carbonara": {
+                "desc": "Pancetta, egg, and pecorino.",
+                "price": "7.80"
+            },
+            "Zucchini_Noodles_with_Pesto": {
+                "desc": "Low-carb zucchini noodles with basil pesto.",
+                "price": "7.50"
+            }
+        },
+        "Extras": {
+            "Grilled_Veggie_Wrap": {
+                "desc": "Whole wheat wrap with grilled zucchini, bell peppers, and hummus.",
+                "price": "6.50"
+            },
+            "Protein_Shake": {
+                "desc": "Blended protein shake with almond milk and berries.",
+                "price": "5.00"
+            },
+            "Avocado_Tomato_Salad": {
+                "desc": "Fresh avocado, cherry tomatoes, olive oil, and balsamic glaze.",
+                "price": "6.00"
+            }
+        }
+    },
+    "Ima_Sushi": {
+        "Sushi": {
+            "SMU_Dragon_Roll": {
+                "desc": "Six-piece sushi roll featuring unagi, avocado, and ebi tempura.",
+                "price": "13.50"
+            },
+            "Salmon_Sushi": {
+                "desc": "Fresh salmon slice over vinegared rice; special price for SMU students and staff.",
+                "price": "1.90"
+            },
+            "Chirashi_Sushi": {
+                "desc": "Assorted sashimi on vinegared rice.",
+                "price": "16.00"
+            }
+        },
+        "Donburi": {
+            "Kaisen_Chirashi_Don": {
+                "desc": "A bowl of vinegared rice topped with a variety of fresh sashimi slices.",
+                "price": "17.50"
+            },
+            "Unagi_Don": {
+                "desc": "Grilled eel over sushi rice.",
+                "price": "15.00"
+            }
+        },
+        "Snacks": {
+            "Edamame": {
+                "desc": "Steamed soybeans sprinkled with sea salt.",
+                "price": "4.00"
+            },
+            "Tako_Sunomono": {
+                "desc": "Marinated octopus salad with cucumber and vinegar dressing.",
+                "price": "6.00"
+            }
+        }
+    },
+    "Kuro_Kare": {
+        "Curry": {
+            "Tori_Katsu_Curry": {
+                "desc": "Breaded chicken cutlet served with rich Japanese curry over rice.",
+                "price": "11.90"
+            },
+            "Black_Angus_Shortribs_Curry": {
+                "desc": "Tender Black Angus short ribs paired with flavorful Japanese curry and rice.",
+                "price": "16.90"
+            },
+            "Vegetable_Katsu_Curry": {
+                "desc": "Fried veggies with thick curry.",
+                "price": "10.50"
+            },
+            "Curry_Udon": {
+                "desc": "Udon noodles in curry broth.",
+                "price": "10.00"
+            }
+        },
+        "Set_Meals": {
+            "Set_Meal_Add_on": {
+                "desc": "Includes a drink and chicken bone broth soup simmered for over six hours.",
+                "price": "3.90"
+            }
+        }
+    },
+    "Park_s_Kitchen": {
+        "BBQ": {
+            "Bibimbap": {
+                "desc": "Mixed rice with assorted vegetables and your choice of protein, topped with a fried egg and served with kimchi.",
+                "price": "4.00"
+            },
+            "Spicy_Pork_Rice_Bowl": {
+                "desc": "Rice bowl topped with spicy marinated pork slices and a fried egg, accompanied by kimchi.",
+                "price": "6.80"
+            },
+            "Bulgogi": {
+                "desc": "Marinated beef BBQ with rice.",
+                "price": "8.50"
+            }
+        },
+        "Stews": {
+            "Kimchi_Jjigae": {
+                "desc": "Kimchi stew with tofu and pork.",
+                "price": "7.00"
+            }
+        },
+        "Noodles": {
+            "Japchae": {
+                "desc": "Stir-fried glass noodles with veggies.",
+                "price": "6.50"
+            },
+            "Ramyun": {
+                "desc": "Korean instant noodles with vegetables and egg.",
+                "price": "5.50"
+            }
+        }
+    },
+    "Bricklane": {
+        "Fusion_Bowls": {
+            "Torched_NZ_Ribeye_Beef_Cubes_Donburi": {
+                "desc": "Rice bowl topped with torched New Zealand ribeye beef cubes.",
+                "price": "10.90"
+            },
+            "Grilled_Teriyaki_Chicken_Donburi": {
+                "desc": "Rice bowl featuring grilled teriyaki chicken slices.",
+                "price": "6.90"
+            },
+            "Kimchi_Carbonara": {
+                "desc": "Spicy kimchi + creamy pasta.",
+                "price": "9.50"
+            }
+        },
+        "Snacks": {
+            "Torched_Mentaiko_Fries": {
+                "desc": "Fries topped with torched mentaiko sauce, ideal for sharing.",
+                "price": "8.90"
+            },
+            "Korean_Fried_Chicken": {
+                "desc": "Crispy fried chicken with spicy gochujang glaze.",
+                "price": "7.50"
+            },
+            "Bulgogi_Tacos": {
+                "desc": "Korean beef in crispy tacos.",
+                "price": "8.00"
+            }
+        }
+    },
+    "Pasta_Express": {
+        "Pasta": {
+            "Customizable_Pasta_Base": {
+                "desc": "Choose from Tomato Sauce, Cream Sauce, or Aglio Olio as your pasta base.",
+                "price": "3.80"
+            },
+            "Spaghetti_Aglio_Olio": {
+                "desc": "Garlic and olive oil pasta with chili flakes.",
+                "price": "6.00"
+            }
+        },
+        "Toppins": {
+            "Meat_Toppings": {
+                "desc": "Add-ons like minced beef, pepperoni, or smoked duck breast to enhance your pasta.",
+                "price": "1.40"
+            },
+            "Vegetable_Toppings": {
+                "desc": "Options include sweet corn, sous vide egg, and spinach to complement your dish.",
+                "price": "0.80"
+            }
+        },
+        "Extras": {
+            "Garlic_Bread": {
+                "desc": "Buttery toasted bread with garlic and parsley.",
+                "price": "3.50"
+            },
+            "Caesar_Salad": {
+                "desc": "Romaine lettuce, croutons, parmesan, and Caesar dressing.",
+                "price": "5.00"
+            }
+        }
+    },
+    "King_Kong_Curry": {
+        "Curry": {
+            "Signature_King_Kong_Curry": {
+                "desc": "Rich Japanese curry served with your choice of katsu, beef, or vegetables.",
+                "price": "10.50"
+            },
+            "Cheese_Curry_Rice": {
+                "desc": "Japanese curry rice topped with melted cheese.",
+                "price": "9.80"
+            },
+            "Seafood_Curry_Rice": {
+                "desc": "Japanese curry served with fried prawns, squid, and fish fillet.",
+                "price": "12.50"
+            },
+            "Wagyu_Beef_Curry": {
+                "desc": "Premium Wagyu beef slices served with Japanese curry over rice.",
+                "price": "16.90"
+            },
+            "Vegetarian_Curry": {
+                "desc": "A plant-based Japanese curry featuring tofu and seasonal vegetables.",
+                "price": "8.90"
+            },
+            "Chicken_Katsu_Curry": {
+                "desc": "Crispy breaded chicken cutlet with Japanese curry over rice.",
+                "price": "11.50"
+            },
+            "Omelette_Curry_Rice": {
+                "desc": "Fluffy Japanese omelette served with curry rice.",
+                "price": "9.50"
+            },
+            "Karaage_Curry_Rice": {
+                "desc": "Japanese-style fried chicken served with curry over rice.",
+                "price": "10.80"
+            },
+            "Pork_Katsu_Curry": {
+                "desc": "Breaded pork cutlet served with thick Japanese curry.",
+                "price": "12.30"
+            },
+            "Spicy_Curry_Rice": {
+                "desc": "A bolder, spicier version of our traditional Japanese curry.",
+                "price": "10.00"
+            }
+        }
+    },
+    "ONALU_Bagel_Haus": {
+        "Bagel": {
+            "Hash_Stack_Bagel": {
+                "desc": "Bagel sandwich with hashbrown, scrambled eggs, and house-made jam.",
+                "price": "8.00"
+            },
+            "Kaya_Thyme_Bagel": {
+                "desc": "A unique twist on traditional kaya toast, featuring kaya and thyme.",
+                "price": "9.00"
+            },
+            "Somethin_Fishy_Bagel": {
+                "desc": "Bagel filled with Norwegian smoked salmon, scallion cream cheese, and capers.",
+                "price": "12.00"
+            }
+        }
+    },
+    "Chops": {
+        "Grilled_Meats": {
+            "Grilled_Lamb_Chop": {
+                "desc": "Juicy lamb chops marinated in rosemary and garlic, served with roasted vegetables.",
+                "price": "18.00"
+            },
+            "Grilled_Chicken_Thighs": {
+                "desc": "Herb-marinated chicken thighs grilled to perfection.",
+                "price": "12.00"
+            },
+            "Beef_Steak": {
+                "desc": "Grilled beef steak with a side of mashed potatoes and pepper sauce.",
+                "price": "22.00"
+            }
+        },
+        "Sides": {
+            "Garlic_Butter_Mushrooms": {
+                "desc": "Sautéed mushrooms in garlic butter sauce.",
+                "price": "6.00"
+            },
+            "Truffle_Fries": {
+                "desc": "Crispy fries tossed in truffle oil with parmesan cheese.",
+                "price": "8.00"
+            }
+        }
+    },
+    "Turks_Kebab": {
+        "Kebabs": {
+            "Chicken_Shish_Kebab": {
+                "desc": "Grilled chicken skewers marinated in Turkish spices, served with rice and salad.",
+                "price": "10.00"
+            },
+            "Lamb_Doner_Kebab": {
+                "desc": "Thinly sliced lamb doner wrapped in flatbread with lettuce, tomatoes, and yogurt sauce.",
+                "price": "9.00"
+            },
+            "Mixed_Grill_Platter": {
+                "desc": "A platter of grilled chicken, lamb, and beef kebabs with sides.",
+                "price": "18.00"
+            }
+        },
+        "Sides": {
+            "Hummus": {
+                "desc": "Creamy chickpea dip served with pita bread.",
+                "price": "5.00"
+            },
+            "Tabbouleh": {
+                "desc": "Fresh parsley salad with bulgur, tomatoes, and lemon dressing.",
+                "price": "6.00"
+            }
+        }
+    }
+}

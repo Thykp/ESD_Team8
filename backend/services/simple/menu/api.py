@@ -1,7 +1,6 @@
 import os
 from google.cloud import firestore
 from flask import Flask, request, jsonify
-from photo import get_photo_by_id
 from flask_cors import CORS
 
 # Initialize Firestore using credentials
@@ -21,7 +20,6 @@ def get_menus():
     users_ref = db.collection("Menu").stream()
     for doc in users_ref:
         holder[doc.id] = doc.to_dict()
-        holder[doc.id]['photos'] = get_photo_by_id(doc.id)
     # users_list = [{doc.id: doc.to_dict()} for doc in users_ref]
     return jsonify(holder)
 
@@ -32,7 +30,6 @@ def get_menu(restraunt):
     doc = doc_ref.get()
     if doc.exists:
         tbr = doc.to_dict()
-        tbr['photos'] = get_photo_by_id(restraunt)
         return jsonify(tbr)
     else:
         return jsonify({"error": "Restraunt not found"}), 404
