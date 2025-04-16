@@ -2,6 +2,13 @@ _format_version: "3.0"
 _transform: true
 
 services:
+  - name: rabbitmq-management
+    url: http://rabbitmq:15672
+    routes:
+      - name: rabbitmq-management-route
+        paths:
+          - /rabbitmq
+      
   - name: queue-service
     url: http://queue:8008
     routes:

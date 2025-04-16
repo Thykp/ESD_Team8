@@ -19,3 +19,6 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8090
+        env:
+        - name: RABBITMQ_URL
+          value: "amqp://guest:guest@rabbitmq:5672"

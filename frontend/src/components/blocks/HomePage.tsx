@@ -75,22 +75,29 @@ export default function HomePage() {
           console.error("Error fetching credits:", error);
         }
       }
-      const setDeliveryTime = async () => {
+      const fetchAndSetAllQueues = async () => {
         try {
+          const queueData = await Queue.getAllQueue();
           
-          const return_data: { [key: string]: number } = {};
-          const promises = featuredRestaurants.map(async (restaurant) => {
-            const data = await Queue.getRestaurantQueue(restaurant.id);
-            return_data[restaurant.id] = data.data.length;
-          });
-          await Promise.all(promises);
-          setDeliveryTimes(return_data);
+          if (queueData && queueData.data) {
+            // For each restaurant, set deliveryTimes[restaurantId] = queue length
+            const counts: Record<string, number> = {};
+            
+            for (const [restaurant, orders] of Object.entries(queueData.data)) {
+              if (Array.isArray(orders)) {
+                counts[restaurant] = orders.length;
+              } else {
+                counts[restaurant] = 0; // fallback or handle error
+              }
+          }
+           setDeliveryTimes(counts);
+          }
         } catch (error) {
-          console.error("Error fetching delivery times:", error);
+          console.error("Error fetching all queues:", error);
         }
       };
-
-      setDeliveryTime()
+  
+      fetchAndSetAllQueues();
       getUserCredits()
     }
     checkAndInsertProfile()
@@ -240,7 +247,7 @@ export default function HomePage() {
             ) : (
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {featuredRestaurants.slice(0, displayCount).map((restaurant) => {
-
+                  console.log('Rendering', restaurant.id, deliveryTimes[restaurant.id.toLowerCase()]);
                   //console.log("Restaurant data:", restaurant)
                   return (
                     <Link to={`/shop/?shop=${encodeURIComponent(restaurant.id || "restaurant")}`} key={restaurant.id}>
@@ -289,8 +296,8 @@ export default function HomePage() {
                             <div className="flex items-center justify-between text-sm text-muted-foreground mt-2">
                               <div className="flex items-center">
                                 <Clock className="mr-1 h-3 w-3 text-blue-500" />
-                                <span>{deliveryTimes[restaurant.id] !== undefined
-                                  ? deliveryTimes[restaurant.id] * 3 + " mins"
+                                <span>{deliveryTimes[restaurant.id.toLowerCase()] !== undefined
+                                  ? deliveryTimes[restaurant.id.toLowerCase()] * 3 + " mins"
                                   : "Loading..."}
                                 </span>
                               </div>

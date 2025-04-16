@@ -32,7 +32,7 @@ export default function RestaurantsPage() {
   const filteredRestaurants = restaurants.filter((restaurant) =>
     restaurant.id.toLowerCase().includes(searchQuery.toLowerCase())
   );
-  const deliveryCache: { [key: string]: number } = {};
+  
   console.log(filteredRestaurants)
   useEffect(() => {
     if (!filteredRestaurants.length || loading) return;
@@ -49,28 +49,29 @@ export default function RestaurantsPage() {
       }
     };
 
-    const setdeliveryTime = async () => {
+    const fetchAndSetAllQueues = async () => {
       try {
-        const return_data: { [key: string]: number } = {};
-        console.log(restaurants);
-        const promises = filteredRestaurants.slice(0, displayCount).map(async (restaurant) => {
-          if (deliveryCache[restaurant.id]) {
-            return_data[restaurant.id] = deliveryCache[restaurant.id];
-          } else {
-            const data = await Queue.getRestaurantQueue(restaurant.id);
-            return_data[restaurant.id] = data.data.length;
-            deliveryCache[restaurant.id] = data.data.length; // Cache the result
-          }
-        });
-        await Promise.all(promises);
-        setDeliveryTimes(return_data);
+        const queueData = await Queue.getAllQueue();
+        
+        if (queueData && queueData.data) {
+          // For each restaurant, set deliveryTimes[restaurantId] = queue length
+          const counts: Record<string, number> = {};
+          
+          for (const [restaurant, orders] of Object.entries(queueData.data)) {
+            if (Array.isArray(orders)) {
+              counts[restaurant] = orders.length;
+            } else {
+              counts[restaurant] = 0; // fallback or handle error
+            }
+        }
+         setDeliveryTimes(counts);
+        }
       } catch (error) {
-        console.error("Error fetching delivery times:", error);
+        console.error("Error fetching all queues:", error);
       }
     };
 
-
-    setdeliveryTime();
+    fetchAndSetAllQueues();
     getUserCredits();
   },[restaurants, displayCount]); // Adjust dependencies as needed
 
@@ -234,8 +235,8 @@ export default function RestaurantsPage() {
                     <div className="flex items-center gap-4 text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
                         <Clock className="h-3 w-3" />
-                        {deliveryTimes[restaurant.id] !== undefined
-                                  ? deliveryTimes[restaurant.id] * 3 + " mins"
+                        {deliveryTimes[restaurant.id.toLowerCase()] !== undefined
+                                  ? deliveryTimes[restaurant.id.toLowerCase()] * 3 + " mins"
                                   : "Loading..."}
                       </div>
                       <div className="flex items-center gap-1">

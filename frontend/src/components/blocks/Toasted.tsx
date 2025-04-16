@@ -52,9 +52,11 @@ export default function RealTimeNotifications() {
                 
                 const notificationUserId = notification?.user_id; // Extract the userId from the payload
                 console.log(notificationUserId)
+                console.log(currentUserId)
 
                 // Check if the notification is for the current user
                 if (notificationUserId && notificationUserId === currentUserId) {
+                    console.log(notification)
                     toast({
                         title: "You Got a New Notification!",
                         description: notification.message || "No details available.",

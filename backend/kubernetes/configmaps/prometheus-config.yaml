@@ -12,3 +12,24 @@ data:
       - job_name: 'kong'
         static_configs:
           - targets: ['kong-dbless:8001']
+
+      - job_name: 'reccomendation'
+        static_configs:
+          - targets: ['reccomendation:4000']
+
+      - job_name: 'menu'
+        static_configs:
+          - targets: ['menu:5001']
+
+      - job_name: 'payment'
+        static_configs:
+          - targets: ['payment:5002']
+
+      - job_name: 'chatgpt'
+        static_configs:
+          - targets: ['chatgpt:3000']
+
+      - job_name: 'order'
+        static_configs:
+          - targets: ['order:6369']
+

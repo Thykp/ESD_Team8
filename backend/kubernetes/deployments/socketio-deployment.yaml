@@ -21,6 +21,6 @@ spec:
         - containerPort: 3300
         env:
         - name: RABBITMQ_URL
-          value: "amqp://guest:guest@rabbitmq:5672"
+          value: "amqp://guest:guest@rabbitmq.esd.svc.cluster.local:5672"
         - name: KONG_URL
           value: "http://kong:8000"

@@ -19,3 +19,6 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 7070
+        env:
+        - name: RABBITMQ_URL
+          value: "amqp://guest:guest@rabbitmq.esd.svc.cluster.local:5672"
