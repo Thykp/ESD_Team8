@@ -1,15 +1,6 @@
-Flask==3.1.0
-flask-cors==5.0.1
-google==3.0.0
-google-api-core==2.24.1
-google-api-python-client==2.161.0
-google-auth==2.38.0
-google-auth-httplib2==0.2.0
-google-cloud-core==2.4.2
-google-cloud-firestore==2.20.0
-google-cloud-storage==3.0.0
-google-crc32c==1.6.0
-google-resumable-media==2.7.2
-googleapis-common-protos==1.68.0
-grpcio==1.70.0
-grpcio-status==1.70.0
+Flask==2.3.3
+flask-cors==5.0.0
+google-cloud-firestore==2.10.0
+prometheus-flask-exporter==0.23.1
+werkzeug>=3.0.6 # not directly required, pinned by Snyk to avoid a vulnerability
+zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability

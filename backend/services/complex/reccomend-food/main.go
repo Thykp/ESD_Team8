@@ -2,6 +2,7 @@ package main
 
 import (
     "bytes"
+    "encoding/base64"
     "encoding/json"
     "fmt"
     "io/ioutil"
@@ -25,16 +26,41 @@ func fetchAPIData(apiURL string) ([]byte, error) {
     return body, nil
 }
 
+// Helper function to check if a string is base64-encoded
+func isBase64(data []byte) bool {
+    _, err := base64.StdEncoding.DecodeString(string(data))
+    return err == nil
+}
+
+// Decode base64 if necessary
+func decodeBase64IfNeeded(data []byte) ([]byte, error) {
+    if isBase64(data) {
+        decoded, err := base64.StdEncoding.DecodeString(string(data))
+        if err != nil {
+            return nil, fmt.Errorf("failed to decode base64: %w", err)
+        }
+        return decoded, nil
+    }
+    return data, nil
+}
+
+// Parse dynamic data and ensure it's plain JSON
 func parseDynamicData(Data []byte) (interface{}, error) {
+    // Decode base64 if necessary
+    decodedData, err := decodeBase64IfNeeded(Data)
+    if err != nil {
+        return nil, err
+    }
+
     // Try parsing as a map
     var asMap map[string]interface{}
-    if err := json.Unmarshal(Data, &asMap); err == nil {
+    if err := json.Unmarshal(decodedData, &asMap); err == nil {
         return asMap, nil
     }
 
     // Try parsing as an array
     var asArray []interface{}
-    if err := json.Unmarshal(Data, &asArray); err == nil {
+    if err := json.Unmarshal(decodedData, &asArray); err == nil {
         return asArray, nil
     }
 
@@ -49,61 +75,6 @@ func main() {
         c.JSON(http.StatusOK, gin.H{
             "message": "Hello, World! Gin server is running 🚀",
         })
-    })
-
-    router.GET("/order/:id", func(c *gin.Context) {
-        id := c.Param("id")
-        apiURL := fmt.Sprintf("http://order:6369/orders?uid=%s", id)
-        fmt.Println("Calling Outsystems:", apiURL)
-
-        data, err := fetchAPIData(apiURL)
-        if err != nil {
-            c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-            return
-        }
-
-        c.JSON(http.StatusOK, data)
-    })
-
-    router.GET("/reccomendation/:id", func(c *gin.Context) {
-        id := c.Param("id")
-        apiURL := fmt.Sprintf("http://reccomendation:4000/recommendation/%s", id)
-        fmt.Println("Calling FastAPI:", apiURL)
-
-        data, err := fetchAPIData(apiURL)
-        if err != nil {
-            c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-            return
-        }
-
-        c.JSON(http.StatusOK, data)
-    })
-
-    router.GET("/menu", func(c *gin.Context) {
-        apiURL := "http://menu:5001/all"
-        fmt.Println("Calling Flask:", apiURL)
-
-        data, err := fetchAPIData(apiURL)
-        if err != nil {
-            c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-            return
-        }
-
-        c.JSON(http.StatusOK, data)
-    })
-
-    router.GET("/menu/:restaurant", func(c *gin.Context) {
-        restaurant := c.Param("restaurant")
-        apiURL := fmt.Sprintf("http://menu:5001/%s", restaurant)
-        fmt.Println("Calling Flask:", apiURL)
-
-        data, err := fetchAPIData(apiURL)
-        if err != nil {
-            c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-            return
-        }
-
-        c.JSON(http.StatusOK, data)
     })
 
     router.POST("/chatgpt/:id", func(c *gin.Context) {

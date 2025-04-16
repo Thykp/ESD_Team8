@@ -3,6 +3,9 @@
 ## FindMyFood
 <img width="1710" alt="Screenshot 2025-03-24 at 3 03 06 PM" src="https://github.com/user-attachments/assets/db93c561-8024-4827-abeb-1718294aa09e" />
 
+## Presentation Documents
+<a href="https://drive.google.com/file/d/1bsgPcYtslgF8uEUbBRzECZPIUfe3wo02/view?usp=drive_link">Presentation Slides</a>
+
 ## Prerequisite
 IDE (Any) <br>
 Node Package Manager (npm) <br>
@@ -15,7 +18,8 @@ Docker <br>
 
 Switch to your branch before starting to code <br>
 
-1. Open a terminal and run the following command <b>(Leave this out first)</b>:
+> Local Setup, ensure Docker Desktop is running
+1. Open a terminal and run the following command:
 ```bash
   cd backend
   docker-compose up -d --build
@@ -32,7 +36,7 @@ Switch to your branch before starting to code <br>
 ![image](https://github.com/user-attachments/assets/8bb03a33-40f2-44eb-b421-ae1162802181)
 
 ## Cloud Architecture Diagram
-<img width="1155" alt="Screenshot 2025-04-02 at 10 32 30 PM" src="https://github.com/user-attachments/assets/7d7ae580-2bb4-40f1-b44a-43bdc48621f9" />
+<img width="1146" alt="Screenshot 2025-04-04 at 11 18 18 PM" src="https://github.com/user-attachments/assets/a0ca9c10-a321-432b-b6c4-0cf608cfdc0c" />
 
 ## Kubernetes Architecture Diagram
 <img width="1000" alt="Screenshot 2025-04-01 at 2 38 43 PM" src="https://github.com/user-attachments/assets/5ed8cf54-6960-48b1-91a3-099e6fcc792f" />
@@ -48,10 +52,16 @@ Switch to your branch before starting to code <br>
 - <b>Golang Concurrency Servers</b> on Composite Services for <b>Multi-Threading</b>
 - Mix of <b>SQL and NoSQL Databases</b>
 - <b>RabbitMQ as message broker</b> for real time changes
-- <b>Kong API Gateway</b> for aggregating requests
-- <b>Grafana + Prometheus</b> for data ingestion and monitoring
+- Websocket as message consumer of RabbitMQ
+- <b>Kong API Gateway</b> for aggregating requests and routing
+- <b>Grafana + Prometheus</b> for data ingestion and monitoring of microservices and Kong
 - <b>CI/CD pipeline</b> to automate Image and Container building on Cloud
-- <b>Kubernetes Integration</b>
+- <b>CI/CD pipeline</b> to run automated static code testing with Snyk and Checkov
+- <b>Kubernetes Deployment</b> via declarative yaml files
+- Application fully deployed onto Cloud Services using Google Cloud Platform
+- Google Cloud Services provisioned via Terraform
+- Backend microservices are deployed onto Google Kubernetes Engine
+- Frontend deployed as static asset on Google Cloud Storage and accessed via Google CDN
 
 ### Frontend
 - React + Tailwind + TypeScript + ShadCN Web UI
@@ -110,7 +120,7 @@ Switch to your branch before starting to code <br>
 <p align="center">
 <a href="https://konghq.com/"><img src="https://konghq.com/wp-content/uploads/2018/08/kong-combination-mark-color-256px.png" alt="Kong API Gateway" width="88"/></a>
 <br>
-<i>CORS · Rate Limit Plugin · Custom Authentication Plugin · Prometheus</i>
+<i>CORS · Rate Limit Plugin · Prometheus</i>
 </p>
 <br>  
 

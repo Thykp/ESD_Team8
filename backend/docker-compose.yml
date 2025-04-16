@@ -55,6 +55,9 @@ services:
       - esd-net
     ports:
       - "1010:3000"
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/etc/grafana/dashboards
 
   complete-order:
     build: ./services/complex/complete-order
@@ -63,6 +66,8 @@ services:
       - esd-net
     ports:
       - "7070:7070"
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672 #connect to rabbitmq at port 5762 with the cred of username: guest and password: guest
 
   reccomend-food:
     build: ./services/complex/reccomend-food

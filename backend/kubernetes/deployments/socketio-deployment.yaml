@@ -16,10 +16,11 @@ spec:
       containers:
       - name: socketio
         image: asia-southeast1-docker.pkg.dev/findmyfood-455107/my-repo/socket.io:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 3300
         env:
         - name: RABBITMQ_URL
-          value: "amqp://guest:guest@rabbitmq:5672"
+          value: "amqp://guest:guest@rabbitmq.esd.svc.cluster.local:5672"
         - name: KONG_URL
           value: "http://kong:8000"

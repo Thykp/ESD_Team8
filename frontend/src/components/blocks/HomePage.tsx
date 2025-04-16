@@ -5,13 +5,14 @@ import { Link, Navigate, useNavigate } from "react-router-dom"
 import { useAuth } from "@/context/AuthContext"
 import { useRestaurants } from "@/context/RestaurantsContext"
 import { supabase } from "@/supabaseClient"
-import { Search, ShoppingBag, User, ChevronRight, Star, Clock, MapPin } from "lucide-react"
-
+import { Search, ShoppingBag, User, ChevronRight, Star, Clock } from "lucide-react"
+import { Credits, Queue } from "@/services/api"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import LoadingScreen from "@/components/blocks/LoadingScreen.tsx"
+
 
 export default function HomePage() {
   const { isLoggedIn, loading } = useAuth()
@@ -20,8 +21,11 @@ export default function HomePage() {
   const { restaurants: featuredRestaurants, loading: restaurantsLoading } = useRestaurants()
   const [displayCount, setDisplayCount] = useState(8)
   const navigate = useNavigate()
+  const [credits, setCredits] = useState<number | null>(null);
+  const [deliveryTimes, setDeliveryTimes] = useState<{ [key: string]: number }>({});
 
   useEffect(() => {
+
     if (!isLoggedIn || loading) return
 
     const checkAndInsertProfile = async () => {
@@ -63,11 +67,45 @@ export default function HomePage() {
       if (user.user_metadata?.role === "Business") {
         navigate("/business-home")
       }
+      const getUserCredits = async () => {
+        try {
+          const data = await Credits.getUserCredits(user.id);
+          setCredits(data.message.currentcredits);
+        } catch (error) {
+          console.error("Error fetching credits:", error);
+        }
+      }
+      const fetchAndSetAllQueues = async () => {
+        try {
+          const queueData = await Queue.getAllQueue();
+          
+          if (queueData && queueData.data) {
+            // For each restaurant, set deliveryTimes[restaurantId] = queue length
+            const counts: Record<string, number> = {};
+            
+            for (const [restaurant, orders] of Object.entries(queueData.data)) {
+              if (Array.isArray(orders)) {
+                counts[restaurant] = orders.length;
+              } else {
+                counts[restaurant] = 0; // fallback or handle error
+              }
+          }
+           setDeliveryTimes(counts);
+          }
+        } catch (error) {
+          console.error("Error fetching all queues:", error);
+        }
+      };
+  
+      fetchAndSetAllQueues();
+      getUserCredits()
     }
     checkAndInsertProfile()
-  }, [isLoggedIn, loading])
+
+  }, [isLoggedIn, loading, featuredRestaurants])
 
   useEffect(() => {
+
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setMenuOpen(false)
@@ -92,7 +130,7 @@ export default function HomePage() {
   const handleLoadMore = () => {
     setDisplayCount((prev) => prev + 8)
   }
-
+  console.log(deliveryTimes)
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -112,6 +150,9 @@ export default function HomePage() {
             </div>
           </div>
           <div className="flex items-center gap-4">
+            <div>
+              Credits: {credits !== null ? credits : "Loading..."}
+            </div>
             <Link to="/cart">
               <Button className="rounded-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600">
                 <ShoppingBag className="mr-2 h-4 w-4" />
@@ -161,18 +202,20 @@ export default function HomePage() {
                     Order from your favorite restaurants and pickup your food by the time you reach.
                   </p>
                   <div className="flex flex-col gap-2 sm:flex-row">
-                    <Button
-                      size="lg"
-                      className="bg-white font-semibold text-blue-600 hover:bg-white/90 transition-colors"
-                    >
-                      Order Now
-                    </Button>
                     <Link to="/restaurants">
                       <Button
                         size="lg"
                         className="bg-transparent border-2 border-white text-white font-semibold hover:bg-white hover:text-blue-600 transition-colors"
                       >
                         View Restaurants
+                      </Button>
+                    </Link>
+                    <Link to="/recommendation">
+                      <Button
+                        size="lg"
+                        className="bg-white font-semibold text-blue-600 hover:bg-white/90 transition-colors"
+                      >
+                        Customise Reccomendations
                       </Button>
                     </Link>
                   </div>
@@ -204,7 +247,8 @@ export default function HomePage() {
             ) : (
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {featuredRestaurants.slice(0, displayCount).map((restaurant) => {
-                  console.log("Restaurant data:", restaurant)
+                  console.log('Rendering', restaurant.id, deliveryTimes[restaurant.id.toLowerCase()]);
+                  //console.log("Restaurant data:", restaurant)
                   return (
                     <Link to={`/shop/?shop=${encodeURIComponent(restaurant.id || "restaurant")}`} key={restaurant.id}>
                       <Card className="overflow-hidden h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
@@ -231,7 +275,7 @@ export default function HomePage() {
                         <CardContent className="p-4 flex flex-col h-full">
                           <div className="space-y-2 flex-1">
                             <h3 className="font-bold text-lg group-hover:text-blue-600 transition-colors">
-                              {restaurant.name}
+                              {(restaurant.name || restaurant.id || "").replace(/_/g, " ")}
                             </h3>
                             <div className="flex flex-wrap gap-1">
                               {(restaurant.tags || []).slice(0, 3).map((tag) => (
@@ -252,11 +296,13 @@ export default function HomePage() {
                             <div className="flex items-center justify-between text-sm text-muted-foreground mt-2">
                               <div className="flex items-center">
                                 <Clock className="mr-1 h-3 w-3 text-blue-500" />
-                                <span>{restaurant.deliveryTime || "20-30 min"}</span>
+                                <span>{deliveryTimes[restaurant.id.toLowerCase()] !== undefined
+                                  ? deliveryTimes[restaurant.id.toLowerCase()] * 3 + " mins"
+                                  : "Loading..."}
+                                </span>
                               </div>
                               <div className="flex items-center">
-                                <MapPin className="mr-1 h-3 w-3 text-purple-500" />
-                                <span>{restaurant.distance || "1.2 km"}</span>
+                              
                               </div>
                             </div>
                           </div>

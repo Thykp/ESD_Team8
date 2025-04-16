@@ -16,6 +16,7 @@ spec:
       containers:
       - name: menu-container
         image: asia-southeast1-docker.pkg.dev/findmyfood-455107/my-repo/menu:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5001
         volumeMounts:

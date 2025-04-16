@@ -13,7 +13,7 @@ const Feature= () => {
             <span className="mb-8 flex size-12 items-center justify-center rounded-full bg-background">
               <CreditCard className="size-6" />
             </span>
-            <h3 className="mb-2 text-xl font-medium">Single unified ordering platform</h3>
+            <h3 className="mb-2 text-xl font-medium">Single online ordering platform</h3>
             <p className="leading-7 text-muted-foreground">
               With universal payment processing using Stripe, you no longer have to worry about "Cash/PayNow only".
             </p>
@@ -24,7 +24,7 @@ const Feature= () => {
             </span>
             <h3 className="mb-2 text-xl font-medium">Make informed choices</h3>
             <p className="leading-7 text-muted-foreground">
-              Real-time queue monitoring allows you to see wait times before you place an order, so you can buy your food and get back to class.
+              Real-time queue monitoring allows you to see wait times before you place an order, so you can get food faster.
             </p>
           </div>
           <div className="rounded-lg bg-accent p-5">

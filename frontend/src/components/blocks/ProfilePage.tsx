@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, Navigate } from "react-router-dom";
-import axios from "axios";
 import { supabase } from "@/supabaseClient";
 import { useAuth } from "@/context/AuthContext";
 import { LogOut, ShoppingBag, User, ChevronLeft } from "lucide-react";
@@ -10,18 +9,37 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
 import LoadingScreen from "@/components/blocks/LoadingScreen.tsx";
+import { orderFood } from "../../services/api";
+import { Badge } from "../ui/badge";
+import { Label } from "../ui/label";
+import { Switch } from "../ui/switch";
+import { Credits } from "../../services/api";
+// Define a type for the order structure
+interface Order {
+  timestamp: any;
+  order_id: string;
+  restaurant: string;
+  status: string;
+  info: {
+    items: Array<{
+      qty: number;
+      dish: string;
+      price: number;
+    }>;
+  };
+  total: number;
+}
 
 export default function ProfilePage() {
   const { isLoggedIn, loading } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const [selectedFilter, setSelectedFilter] = useState("processing");
+
   // State to hold the profile data
   const [profile, setProfile] = useState<{
     id: string;
@@ -31,73 +49,112 @@ export default function ProfilePage() {
   const [loadingProfile, setLoadingProfile] = useState(true);
 
   // New state for orders
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
-
+  const [credits, setCredits] = useState<number | null>(null);
   // Fetch profile from the "User" table on mount
   useEffect(() => {
+    const getUserCredits = async () => {
+      try {
+        const { data: authData } = await supabase.auth.getUser();
+        const user = authData?.user;
+        if (!user) {
+          setLoadingProfile(false);
+          return;
+        }
+        const data = await Credits.getUserCredits(user.id); // Assuming this returns a number
+        setCredits(data.message.currentcredits);
+      } catch (error) {
+        console.error("Error fetching credits:", error);
+      }
+    }
     const fetchProfile = async () => {
-      // Get the authenticated user first
-      const { data: authData, error: authError } = await supabase.auth.getUser();
-      if (authError) {
-        console.error("Error fetching user:", authError);
+      try {
+        // Get the authenticated user first
+        const { data: authData, error: authError } = await supabase.auth.getUser();
+
+        if (authError) {
+          console.error("Error fetching user:", authError);
+          setLoadingProfile(false);
+          return;
+        }
+
+        const user = authData?.user;
+
+        if (!user) {
+          setLoadingProfile(false);
+          return;
+        }
+
+        // Query the "User" table for this user's profile.
+        const { data: profileData, error: profileError } = await supabase
+          .from("User")
+          .select("*")
+          .eq("id", user.id)
+          .maybeSingle();
+
+        if (profileError) {
+          console.error("Error fetching profile:", profileError);
+        } else {
+          setProfile(profileData);
+        }
+
+      } catch (error) {
+        console.error("Unexpected error while fetching profile:", error);
+      } finally {
         setLoadingProfile(false);
-        return;
       }
-      const user = authData?.user;
-      if (!user) {
-        setLoadingProfile(false);
-        return;
-      }
-      // Query the "User" table for this user's profile.
-      const { data: profileData, error: profileError } = await supabase
-        .from("User")
-        .select("*")
-        .eq("id", user.id)
-        .maybeSingle();
-      if (profileError) {
-        console.error("Error fetching profile:", profileError);
-      } else {
-        setProfile(profileData);
-      }
-      setLoadingProfile(false);
+
+
     };
 
+    getUserCredits()
     fetchProfile();
   }, []);
+  const filteredOrders = orders.filter(
+    (order) => order.status === selectedFilter
+  );
+  console.log(filteredOrders);
 
   // Fetch orders when profile is available
   useEffect(() => {
-    if (profile?.name) {
-      axios
-        .get(`http://localhost:8000/order-food/order/graborder?uid=${profile.name}`)
-        .then((response) => {
-          setOrders(response.data);
-        })
-        .catch((err) => {
-          console.error("Error fetching orders:", err);
-        })
-        .finally(() => {
-          setLoadingOrders(false);
-        });
-    }
-  }, [profile]);
+    const fetchOrders = async () => {
+      if (profile?.name) {
+        try {
 
+          const response = await orderFood.getOrdersByFilter(profile.id, '', '');
+          console.log(response.message)
+          //const response = await orderFood.getAllOrders();
+          if (response.message) {
+
+            setOrders(response.message);
+          } else {
+            console.error("Invalid response from getOrdersByFilter:", response);
+          }
+        } catch (err) {
+          console.error("Error fetching orders:", err);
+        } finally {
+          setLoadingOrders(false);
+        }
+      }
+    };
+
+    fetchOrders();
+  }, [profile?.name]);
+
+  // Handle clicks outside the menu to close it
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setMenuOpen(false);
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  if (loadingProfile) {
-    return <LoadingScreen />;
-  }
-
-  if (loading) {
+  if (loadingProfile || loading) {
     return <LoadingScreen />;
   }
 
@@ -110,7 +167,11 @@ export default function ProfilePage() {
   };
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
   };
 
   return (
@@ -132,6 +193,9 @@ export default function ProfilePage() {
               <h1 className="text-xl font-semibold">Profile</h1>
             </div>
             <div className="flex items-center gap-4">
+              <div>
+                Credits: {credits !== null ? credits : "Loading..."}
+              </div>
               <Link to="/cart">
                 <Button className="rounded-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600">
                   <ShoppingBag className="mr-2 h-4 w-4" />
@@ -229,40 +293,70 @@ export default function ProfilePage() {
                   <div>Loading orders...</div>
                 ) : orders.length ? (
                   <div className="grid gap-4">
-                    {orders.map((order: any) => (
-                      <Card key={order.order_id}>
-                        <CardHeader className="pb-4 flex items-center justify-between">
-                          <div className="flex flex-col gap-1">
-                            <CardTitle className="text-base">
-                              {order.restaurant}
-                            </CardTitle>
-                            <CardDescription className="text-sm">
-                              Order ID: {order.order_id}
-                            </CardDescription>
-                          </div>
-                          <Badge
-                            variant="secondary"
-                            className="bg-green-100 text-green-700 hover:bg-green-100"
-                          >
-                            {order.status}
-                          </Badge>
-                        </CardHeader>
-                        <CardContent className="grid gap-4">
-                          <ul className="list-disc ml-4">
-                            {order.info.items.map((item: any, index: number) => (
-                              <li key={index} className="text-sm">
-                                {item.qty} x {item.dish.replace(/_/g, " ")} - ${item.price}
-                              </li>
+                    <Card>
+                      <CardHeader className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                        <CardTitle>Orders</CardTitle>
+                        <div className="flex gap-2">
+                          {["processing", "cancelled", "completed"].map((filter) => (
+                            <Button
+                              key={filter}
+                              variant={selectedFilter === filter ? "default" : "outline"}
+                              onClick={() => setSelectedFilter(filter)}
+                            >
+                              {filter.charAt(0).toUpperCase() + filter.slice(1)}
+                            </Button>
+                          ))}
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        {filteredOrders.length ? (
+                          <div className="space-y-4">
+                            {filteredOrders.map((order) => (
+                              <div
+                                key={order.order_id}
+                                className="grid grid-cols-[1fr_100px_100px_80px] gap-4 text-sm"
+                              >
+                                <div>
+                                  <div className="font-medium">
+                                    Order ID: {order.order_id}
+                                  </div>
+                                  <div className="text-xs text-muted-foreground">
+                                    {/* {order.timestamp
+                                      ? new Date(order.timestamp).toLocaleString()
+                                      : "No time"} */}
+                                  </div>
+                                </div>
+                                <div>
+                                  <Badge
+                                    variant="outline"
+                                    className={
+                                      order.status === "processing"
+                                        ? "border-blue-500 text-blue-500"
+                                        : order.status === "completed"
+                                          ? "border-green-500 text-green-500"
+                                          : "border-red-500 text-red-500"
+                                    }
+                                  >
+                                    {order.status}
+                                  </Badge>
+                                </div>
+                                <div>
+                                  Total: {order.total || order.restaurant}
+                                </div>
+                                <div className="flex justify-end">
+                                  
+                                </div>
+                              </div>
                             ))}
-                          </ul>
-                          <div className="flex items-center justify-between">
-                            <div className="text-sm font-medium">
-                              Total: ${order.total}
-                            </div>
                           </div>
-                        </CardContent>
-                      </Card>
-                    ))}
+                        ) : (
+                          <p className="text-sm text-muted-foreground">
+                            No orders with status &quot;{selectedFilter}&quot;
+                          </p>
+                        )}
+                      </CardContent>
+                    </Card>
+
                   </div>
                 ) : (
                   <div>No orders found.</div>

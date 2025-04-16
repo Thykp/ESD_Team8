@@ -1,10 +1,21 @@
 import { Hono } from "hono";
 
 import { createClient } from '@supabase/supabase-js';
+import client from 'prom-client';
 
 // Intialise supabase cred
 const supabaseUrl = Bun.env.SUPABASE_URL;
 const supabaseKey = Bun.env.SUPABASE_KEY;
+
+// Default system metrics (CPU, memory, etc.)
+client.collectDefaultMetrics();
+
+// Custom counter
+const requestCounter = new client.Counter({
+  name: 'order_requests_total',
+  help: 'Total HTTP requests to the order service',
+  labelNames: ['method', 'path'],
+});
 
 // Error Handling
 if (!supabaseUrl || !supabaseKey) {
@@ -115,7 +126,24 @@ app.post("/add", async (ctx) => {
 // sum cute console stuff to show when request are being made
 Bun.serve({
     fetch: async (request) => {
-        console.log(`Incoming request: ${request.url}`);
+        const url = new URL(request.url);
+        console.log(`Incoming request: ${request.method} ${url.pathname}`);
+    
+        // Count request (skip /metrics to avoid recursion)
+        if (url.pathname !== "/metrics") {
+          requestCounter.labels({ method: request.method, path: url.pathname }).inc();
+        }
+    
+        // Serve metrics manually
+        if (url.pathname === "/metrics") {
+          const metrics = await client.register.metrics();
+          return new Response(metrics, {
+            headers: {
+              "Content-Type": client.register.contentType,
+            },
+          });
+        }
+    
         try {
             return await app.fetch(request); // Pass the request to Hono
         } catch (error) {

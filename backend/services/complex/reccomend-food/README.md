@@ -27,14 +27,14 @@ Sample Output:
         "info": {
         "items": [
             {
-            "qty": 2,
-            "dish": "Grilled_Teriyaki_Chicken_Donburi",
-            "price": 13.8
+                "qty": 2,
+                "dish": "Grilled_Teriyaki_Chicken_Donburi",
+                "price": 13.8
             },
             {
-            "qty": 200,
-            "dish": "Bulgogi_Tacos",
-            "price": 1600
+                "qty": 200,
+                "dish": "Bulgogi_Tacos",
+                "price": 1600
             }
         ]
         },
@@ -48,9 +48,9 @@ Sample Output:
         "info": {
         "items": [
             {
-            "qty": 1,
-            "dish": "Ayam_Penyet",
-            "price": 7
+                "qty": 1,
+                "dish": "Ayam_Penyet",
+                "price": 7
             }
         ]
         },
@@ -78,7 +78,7 @@ Sample Output:
 }
 ```
 
-> Get  all Menu items
+> Get all Menu items
 
 GET http://localhost:8080/menu
 

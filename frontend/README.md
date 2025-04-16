@@ -7,6 +7,14 @@ npm run build
 gsutil -m rsync -R dist gs://findmyfood-455107-frontend
 ```
 
+> Hax
+```bash
+gcloud compute url-maps invalidate-cdn-cache frontend-url-map \
+  --path "/*" \
+  --project=findmyfood-455107 \
+  --verbosity debug
+```
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

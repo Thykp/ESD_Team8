@@ -2,13 +2,20 @@ _format_version: "3.0"
 _transform: true
 
 services:
+  - name: rabbitmq-management
+    url: http://rabbitmq:15672
+    routes:
+      - name: rabbitmq-management-route
+        paths:
+          - /rabbitmq
+      
   - name: queue-service
     url: http://queue:8008
     routes:
       - name: queue-route
         paths:
           - /queue
-  
+
   - name: chatgpt-service
     url: http://chatgpt:3000
     routes:
@@ -73,7 +80,7 @@ services:
           - /complete-order
 
   - name: notification-send
-    url: http://notification-ms:5000 #http://frontend:3000
+    url: http://frontend:5173
     routes:
       - name: notification-route
         paths:
@@ -81,7 +88,7 @@ services:
         methods: [POST]
 
   - name: queue-send
-    url: http://queue-ms:6000 #http://frontend:3000 This needs to be sent to the frontend LOL
+    url: http://frontend:5173
     routes:
       - name: queue-add-route
         paths:
@@ -121,6 +128,7 @@ plugins:
         - Content-Length
         - Content-MD5
         - Content-Type
+        # - Authorization # Maybe remove this
 
   - name: prometheus
     enabled: true

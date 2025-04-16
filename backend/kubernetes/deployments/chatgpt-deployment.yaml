@@ -16,6 +16,7 @@ spec:
       containers:
       - name: chatgpt-container
         image: asia-southeast1-docker.pkg.dev/findmyfood-455107/my-repo/chatgpt:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
         envFrom:

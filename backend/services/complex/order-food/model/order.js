@@ -2,8 +2,8 @@ require('dotenv').config();
 const axios = require("axios");
 const amqp = require("amqplib");
 
-// Uses env variable from docker if avaliable, otherwise use localhost
-const RABBITMQ_URL = process.env.RABBITMQ_URL || "amqp://localhost:5672";
+// Uses env variable from docker if available, otherwise use localhost with guest credentials
+const RABBITMQ_URL = process.env.RABBITMQ_URL || "amqp://guest:guest@localhost:5672";
 
 async function SendRabbitMQ(message) {
     let connection = null
@@ -25,17 +25,18 @@ async function SendRabbitMQ(message) {
     } catch (error) {
         // Error Handling
         console.error("❌ Error occurred while connecting to RabbitMQ or publishing the message:", error.message);
-    } finally {
-        // Close the connection to free resources
-        if (connection) {
-            try {
-                await connection.close();
-                console.log("✅ RabbitMQ connection closed");
-            } catch (closeError) {
-                console.error("❌ Error occurred while closing RabbitMQ connection:", closeError.message);
-            }
-        }
-    }
+    } 
+    // finally {
+    //     // Close the connection to free resources
+    //     if (connection) {
+    //         try {
+    //             await connection.close();
+    //             console.log("✅ RabbitMQ connection closed");
+    //         } catch (closeError) {
+    //             console.error("❌ Error occurred while closing RabbitMQ connection:", closeError.message);
+    //         }
+    //     }
+    // }
 }
 
 async function getAllOrders() {

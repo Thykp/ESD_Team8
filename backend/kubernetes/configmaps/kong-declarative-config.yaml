@@ -9,6 +9,13 @@ data:
     _transform: true
 
     services:
+      - name: rabbitmq-management
+        url: http://rabbitmq:15672
+        routes:
+          - name: rabbitmq-management-route
+            paths:
+            - /rabbitmq
+      
       - name: queue-service
         url: http://queue:8008
         routes:

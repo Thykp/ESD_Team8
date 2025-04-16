@@ -16,5 +16,9 @@ spec:
       containers:
       - name: order-food
         image: asia-southeast1-docker.pkg.dev/findmyfood-455107/my-repo/order-food:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8090
+        env:
+        - name: RABBITMQ_URL
+          value: "amqp://guest:guest@rabbitmq:5672"

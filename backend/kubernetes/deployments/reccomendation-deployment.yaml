@@ -16,6 +16,7 @@ spec:
       containers:
       - name: reccomendation
         image: asia-southeast1-docker.pkg.dev/findmyfood-455107/my-repo/reccomendation:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 4000
         envFrom:

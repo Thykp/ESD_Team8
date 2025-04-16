@@ -6,6 +6,7 @@ import { supabase } from "@/supabaseClient";
 import { ChevronLeft, User, ShoppingBag, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/useCart";
+import { Credits } from "@/services/api";
 
 export default function ProductPage() {
   const { isLoggedIn, loading: authLoading } = useAuth();
@@ -15,7 +16,7 @@ export default function ProductPage() {
   const restaurantParam = searchParams.get("restaurant");
   const categoryParam = searchParams.get("category");
   const itemParam = searchParams.get("item");
-
+  const [credits, setCredits] = useState<number | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -23,11 +24,25 @@ export default function ProductPage() {
   const { addToCart } = useCart();
 
   useEffect(() => {
+    const getUserCredits = async () => {
+      try {
+        const { data: authData } = await supabase.auth.getUser();
+        const user = authData?.user;
+        if (!user) { }
+        else {
+          const data = await Credits.getUserCredits(user.id); // Assuming this returns a number
+          setCredits(data.message.currentcredits);
+        }
+      } catch (error) {
+        console.error("Error fetching credits:", error);
+      }
+    }
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setMenuOpen(false);
       }
     };
+    getUserCredits()
     document.addEventListener("mousedown", handleClickOutside);
     return () =>
       document.removeEventListener("mousedown", handleClickOutside);
@@ -93,6 +108,9 @@ export default function ProductPage() {
           </div>
           <div className="flex items-center gap-4"></div>
           <div className="flex items-center gap-4">
+            <div>
+              Credits: {credits !== null ? credits : "Loading..."}
+            </div>
             <Link to="/cart">
               <Button className="rounded-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600">
                 <ShoppingBag className="mr-2 h-4 w-4" />

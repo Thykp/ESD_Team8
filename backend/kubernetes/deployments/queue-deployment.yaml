@@ -16,6 +16,7 @@ spec:
       containers:
       - name: queue
         image: asia-southeast1-docker.pkg.dev/findmyfood-455107/my-repo/queue:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8008
         envFrom:

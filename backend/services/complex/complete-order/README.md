@@ -20,7 +20,6 @@ http://127.0.0.1:7070/909fff87-e51c-4ecf-aa18-0dba89e0c54f/cancelled
 <h4>Expected Payload</h4>
 
 //Gawd damn i really streamlined it a lot LOL
-//Rem Draw out the diagram tomrrow LMAO
 ```json
 {
     "restaurant" : "Nasi_Lemak_Ayam_Taliwang",

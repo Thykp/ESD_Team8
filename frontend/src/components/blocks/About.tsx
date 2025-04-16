@@ -9,21 +9,21 @@ const About = () => {
         </h1>
         <p className="text-lg">
             No matter if it's break time, lunch time or I-really-need-a-coffee time, <br />
-            browse menus, check the queues, make payment and view order statuses all in one place.
+            browse menus, check queues, make payment and view order statuses all in one place.
         </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
           <img
-            src="https://shadcnblocks.com/images/block/placeholder-1.svg"
+            src="/people.png"
             alt="placeholder"
-            className="size-full max-h-96 rounded-2xl object-cover"
+            className="size-full max-h-96 rounded-2xl object-contain"
           />
-          <div className="flex flex-col justify-between gap-10 rounded-2xl bg-muted p-10">
-            <p className="text-sm text-muted-foreground">Our mission</p>
-            <p className="text-lg font-medium">
-              Seamless Ordering. Smart Recommendations. Less Waiting
-            </p>
-          </div>
+        <div className="flex flex-col justify-center items-center gap-10 rounded-2xl bg-muted p-10 h-full">
+        <p className="text-sm text-muted-foreground">Our mission</p>
+        <p className="text-4xl font-bold text-center">
+         Seamless Ordering. <br /> Smart Recommendations. <br /> Less Waiting.
+        </p>
+        </div>
         </div>
       </div>
     </section>

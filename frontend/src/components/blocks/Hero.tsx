@@ -27,6 +27,7 @@ export default function Hero() {
                   With more being added everyday, there's always something good to eat.
                 </p>
               </div>
+
               <div className="mt-8 gap-3 flex justify-center">
                 <Link to="/register">
                   <Button size={"lg"} className="bg-gradient-to-r from-blue-600 via-blue-400 to-purple-500">Get started</Button>

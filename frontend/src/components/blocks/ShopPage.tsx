@@ -22,6 +22,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Queue, Credits } from "../../services/api";
 
 export default function ShopPage() {
   const { isLoggedIn, loading: authLoading } = useAuth();
@@ -29,29 +30,88 @@ export default function ShopPage() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const shopParam = searchParams.get("shop");
-
   const [menuOpen, setMenuOpen] = useState(false);
+  const [queueItems, setQueueItems] = useState([]); // State to hold queue items
   const menuRef = useRef<HTMLDivElement>(null);
+  const [credits, setCredits] = useState<number | null>(null);
 
+  // Handle clicks outside the menu to close it
   useEffect(() => {
+    const getUserCredits = async () => {
+      try {
+        const { data: authData } = await supabase.auth.getUser();
+        const user = authData?.user;
+        if (user) {
+          const data = await Credits.getUserCredits(user.id); // Assuming this returns a number
+          setCredits(data.message.currentcredits);
+        }
+      } catch (error) {
+        console.error("Error fetching credits:", error);
+      }
+    };
+
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setMenuOpen(false);
       }
     };
+
+    getUserCredits();
     document.addEventListener("mousedown", handleClickOutside);
     return () =>
       document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Fetch and process queue data for the specific restaurant
+  useEffect(() => {
+    async function fetchQueueData() {
+      try {
+        if (!shopParam) {
+          console.error("Restaurant not found.");
+          setQueueItems([]);
+          return;
+        }
+        const restaurant = shopParam.toLowerCase();
+
+        // Fetch queue items for the specific restaurant using getRestaurantQueue
+        const rawQueueItems = await Queue.getRestaurantQueue(restaurant);
+
+        // Debugging: Log the raw response to inspect its structure
+        console.log("Raw Queue Items:", rawQueueItems.data);
+
+        // Ensure rawQueueItems is an array; if not, use an empty array as fallback
+        const queueArray = Array.isArray(rawQueueItems.data) ? rawQueueItems.data : [];
+
+        // Transform and sort the data
+        const transformedQueueItems = queueArray
+          .map((item: any) => ({
+            name: `Order #${item.queue_no}: ${item.order_id}`,
+            status: item.time, // Display time as status
+          }))
+          .sort((a: any, b: any) => {
+            // Extract queue number from the name to sort numerically
+            const queueNoA = parseInt(a.name.split("#")[1], 10);
+            const queueNoB = parseInt(b.name.split("#")[1], 10);
+            return queueNoA - queueNoB;
+          });
+
+        setQueueItems(transformedQueueItems); // Update state with transformed data
+      } catch (error) {
+        console.error("Error fetching Queue:", error);
+        setQueueItems([]); // Set an empty array in case of an error
+      }
+    }
+
+    fetchQueueData();
+  }, [shopParam]);
+
+  // Loading and authentication checks
   if (authLoading || restaurantsLoading) {
     return <div>Loading...</div>;
   }
-
   if (!isLoggedIn) {
     return <Navigate to="/login" />;
   }
-
   if (!shopParam) {
     return <div>No shop specified in the URL.</div>;
   }
@@ -59,18 +119,19 @@ export default function ShopPage() {
   const restaurant = restaurants.find(
     (r) => r.id?.toLowerCase() === shopParam.toLowerCase()
   );
-
   if (!restaurant) {
     return <div>Restaurant not found.</div>;
   }
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
+
   const handleSignOut = async () => {
     await supabase.auth.signOut();
   };
 
   return (
     <div className="flex min-h-screen flex-col">
+      {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-4">
@@ -84,6 +145,9 @@ export default function ShopPage() {
           </div>
           <div className="flex items-center gap-4"></div>
           <div className="flex items-center gap-4">
+            <div>
+              Credits: {credits !== null ? credits : "Loading..."}
+            </div>
             <Link to="/cart">
               <Button className="rounded-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600">
                 <ShoppingBag className="mr-2 h-4 w-4" />
@@ -143,24 +207,32 @@ export default function ShopPage() {
         <div className="container relative -mt-16 px-4">
           <Card>
             <CardContent className="p-6">
-              <div className="grid gap-4 md:grid-cols-2">
+              {/* Centered Name */}
+              <h1 className="text-2xl font-bold text-center">
+                {(restaurant.name || restaurant.id || "").replace(/_/g, " ")}
+              </h1>
+
+              {/* Centered Description */}
+              <p className="mt-2 text-center text-muted-foreground">
+                No description available
+              </p>
+
+              {/* Grid with reviews and right info */}
+              <div className="mt-4 grid gap-4 md:grid-cols-2 items-start">
+                {/* Left Column */}
                 <div>
-                  <h1 className="text-2xl font-bold">{restaurant.id}</h1>
-                  <div className="mt-2 flex items-center gap-4">
+                  <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1">
                       <Star className="h-5 w-5 fill-primary text-primary" />
-                      <span className="font-medium">
-                        {restaurant.rating || "N/A"}
-                      </span>
+                      <span className="font-medium">{restaurant.rating || "N/A"}</span>
                       <span className="text-muted-foreground">(reviews)</span>
                     </div>
                     <Badge variant="secondary">$$</Badge>
                   </div>
-                  <p className="mt-2 text-muted-foreground">
-                    No description available
-                  </p>
                 </div>
-                <div className="flex flex-col items-start gap-2 md:items-end">
+
+                {/* Right Column */}
+                <div className="flex flex-col items-end gap-2">
                   <div className="flex items-center gap-1 text-muted-foreground">
                     <Clock className="h-4 w-4" />
                     <span>{restaurant.deliveryTime || "N/A"} delivery</span>
@@ -182,20 +254,39 @@ export default function ShopPage() {
                           <p className="font-medium">Opening Hours</p>
                           <p className="text-sm">Mon-Sun: 11:00 AM - 10:00 PM</p>
                           <p className="font-medium">Address</p>
-                          <p className="text-sm">
-                            123 Burger Street, Food City, FC 12345
-                          </p>
+                          <p className="text-sm">123 Burger Street, Food City, FC 12345</p>
                         </div>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                 </div>
               </div>
+
+              {/* Queue Section */}
+              <div className="mt-6">
+                <h2 className="mb-2 text-lg font-semibold">Queue</h2>
+                <div className="max-h-48 overflow-y-auto border rounded-md p-2">
+                  {queueItems.length > 0 ? (
+                    queueItems.map((item: any, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between p-2 border-b last:border-b-0"
+                      >
+                        <span className="text-sm font-medium">{item.name}</span>
+                        <span className="text-xs text-muted-foreground">{item.status}</span>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-sm text-center text-muted-foreground">
+                      No items in the queue.
+                    </p>
+                  )}
+                </div>
+              </div>
             </CardContent>
           </Card>
         </div>
       </div>
-
       {/* Main Content: Menu Items */}
       <main className="flex-1">
         <div className="container py-8 px-4">

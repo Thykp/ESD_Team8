@@ -16,6 +16,7 @@ spec:
       containers:
       - name: payment
         image: asia-southeast1-docker.pkg.dev/findmyfood-455107/my-repo/payment:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5002
         envFrom:

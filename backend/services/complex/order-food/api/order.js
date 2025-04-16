@@ -45,7 +45,7 @@ router.get('/graborder', async (req, res) => {
     }
 });
 
-// Cancel Queue
+// Cancel Order
 router.put('/cancel/:oid/:restaurant', async (req, res) => {
     try {
 

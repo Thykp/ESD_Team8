@@ -4,25 +4,15 @@ import http from "http";
 import amqp from "amqplib";
 
 const server = http.createServer();
+// Optimize Server Configuration [[3]]
 const io = new Server(server, {
-    cors: { origin: "*" }
+    cors: { origin: "*" },
+    pingTimeout: 60000, // 60 seconds
+    pingInterval: 25000, // 25 seconds
 });
 
-// Uses env variable from docker if avaliable, otherwise use localhost
-const RABBITMQ_URL = process.env.RABBITMQ_URL || "amqp://localhost:5672"; 
-
-async function connectRabbitMQ() {
-    try {
-        const connection = await amqp.connect(RABBITMQ_URL);
-        const channel = await connection.createChannel();
-        await channel.assertQueue("notifications");
-        console.log("✅ Connected to RabbitMQ");
-        return channel;
-    } catch (error) {
-        console.error("❌ Failed to connect to RabbitMQ:", error);
-    }
-}
-
+// Uses env variable from docker if available, otherwise use localhost with guest credentials
+const RABBITMQ_URL = process.env.RABBITMQ_URL || "amqp://guest:guest@localhost:5672";
 const KONG_URL = process.env.KONG_URL || "http://localhost:8000"; // Kong API Gateway URL
 
 async function sendToKong(endpoint, payload) {
@@ -37,88 +27,84 @@ async function sendToKong(endpoint, payload) {
 }
 
 async function startServer() {
-    const channel = await connectRabbitMQ();
-    if (!channel) return;
+    let connection; // Store the connection globally to close it later
+    try {
+        connection = await amqp.connect(RABBITMQ_URL);
+        const channel = await connection.createChannel();
+        await channel.assertQueue("notifications");
+        console.log("✅ Connected to RabbitMQ");
 
-    // Consume messages from RabbitMQ queue, notifcations
-    channel.consume("notifications", (msg) => {
-        console.log("⏳ Checking messages array...");
-        if (msg !== null) {
-            
-            // Parse the message content as JSON
-            let messageData;
-            try {
-                messageData = JSON.parse(msg.content.toString());
-            } catch (error) {
-                console.error("❌ Failed to parse JSON:", error.message);
-                channel.ack(msg); // Acknowledge the message even if parsing fails
-                return;
+        // Fix RabbitMQ Consumer Logic [[1]]
+        channel.consume("notifications", (msg) => {
+            if (msg !== null) {
+                let messageData;
+                try {
+                    messageData = JSON.parse(msg.content.toString());
+                } catch (error) {
+                    console.error("❌ Failed to parse JSON:", error.message);
+                    channel.ack(msg); // Acknowledge the message even if parsing fails
+                    return;
+                }
+
+                console.log("📥 Received from RabbitMQ:", messageData);
+                io.emit("notification", messageData); // Broadcast to all clients
+                channel.ack(msg); // Acknowledge the message
             }
-
-            //Show what you received
-            console.log("📥 Received from RabbitMQ:", messageData);
-
-            // Emit the received message to all clients listening on notifcation
-            io.emit("notification", messageData);
-            
-            // sendToKong("/notifications", {data: messageData, type: 'notification'}); // Forward to Kong
-
-            // Acknowledge the message
-            channel.ack(msg);
-        }
-    });
-
-    io.on("connection", (socket) => {
-        console.log("⚡ Client connected:", socket.id);
-
-        // Receive data from RabbitMQ about the notifications
-        socket.on("notification", (data) => {
-            console.log("📩 Message received:", data);
-
-            //Do smth with the data add to kong or smth
-            sendToKong("/notifications", data); // Forward to Kong
-            // // Send data back to RabbitMQ that data has been received
-            // io.emit("receivedNotif", data);
         });
 
-        // Receive data of all the queuen
-        socket.on("allQueue", (message) => {
-            console.log("📩 aLLQueue Message received:", message);
 
-            //Do smth with this data connect to kong or smth
-            sendToKong("/queue/all", message); // Forward to Kong
 
-            // Send data back to Queue MS to comfirm message added
-            io.emit("receivedAllQueue", message);
-        })
+        io.on("connection", (socket) => {
+            console.log("⚡ Client connected:", socket.id);
 
-        // Receive data from added Queue
-        socket.on("addQueue", (message) => {
-            console.log("📩 addQueue Message received:", message);
+                                // // Handle "allQueue" event
+            // socket.on("allQueue", (message) => {
+            //     console.log("📩 allQueue Message received:", message);
+            //     sendToKong("/queue/all", message);
+            //     io.emit("receivedAllQueue", message);
+            // });
 
-            //Do smth with this data connect to kong or smth
-            sendToKong("/queue/add", message); // Forward to Kong
+            // // Handle "addQueue" event
+            // socket.on("addQueue", (message) => {
+            //     console.log("📩 addQueue Message received:", message);
+            //     sendToKong("/queue/add", message);
+            //     io.emit("QAdded", message);
+            // });
 
-            // Send data back to Queue MS to comfirm message added
-            io.emit("QAdded", message);
-        })
+            // // Handle "deleteQueue" event
+            // socket.on("deleteQueue", (message) => {
+            //     console.log("📩 deleteQueue Message received:", message);
+            //     sendToKong("/queue/delete", message);
+            //     io.emit("Qdeleted", message);
+            // });
 
-        // Receive data from what to delete Queue
-        socket.on("deleteQueue", (message) => {
-            console.log("📩 deleteQueue Message received:", message);
+            // Monitor and Debug [[4]]
+            socket.on("disconnect", (reason) => {
+                console.log(`🔌 Client ${socket.id} disconnected. Reason: ${reason}`);
+            });
+        });
 
-            //Do smth with this data connect to kong or smth
-            sendToKong("/queue/delete", message); // Forward to Kong
+        server.listen(3300, () => {
+            console.log("🚀 Socket.IO server running on port 3300");
+        });
+    } catch (error) {
+        console.error("❌ Failed to connect to RabbitMQ:", error);
+    }
 
-            // Send data back to Queue MS to comfirm message added
-            io.emit("Qdeleted", message);
-        })
-    });
-
-    server.listen(3300, () => {
-        console.log("🚀 Socket.IO server running on port 3300");
+    // Gracefully close the connection when the process exits
+    process.on("SIGINT", async () => {
+        try {
+            if (connection) {
+                console.log("⏳ Closing RabbitMQ connection...");
+                await connection.close(); // Close the connection
+                console.log("✅ RabbitMQ connection closed.");
+            }
+        } catch (error) {
+            console.error("❌ Error while closing RabbitMQ connection:", error);
+        } finally {
+            process.exit(0); // Exit the process
+        }
     });
 }
 
 startServer();
-

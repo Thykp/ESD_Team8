@@ -48,7 +48,7 @@ async function qstatus() {
         console.log('Queue Data Succesfully Sent 🚀🚀🚀🚀')
 
         return holder
-    } 
+    }
     catch (error) {
         // Return error response
         console.error("Request failed:", error);
@@ -66,11 +66,11 @@ const channel = supabase
             console.log('Change detected in a table:');
             // Print a custom message based on the event type
             if (payload.eventType === 'INSERT') {
-              console.log(`A new record was inserted into the "${payload.table}" table.`);
+                console.log(`A new record was inserted into the "${payload.table}" table.`);
             } else if (payload.eventType === 'UPDATE') {
-              console.log(`A record was updated in the "${payload.table}" table.`);
+                console.log(`A record was updated in the "${payload.table}" table.`);
             } else if (payload.eventType === 'DELETE') {
-              console.log(`A record was deleted from the "${payload.table}" table.`);
+                console.log(`A record was deleted from the "${payload.table}" table.`);
             }
             // sends entire queue to frontend
             qstatus()
@@ -86,17 +86,46 @@ app.get("/", (c) => {
     return c.text('alive (AW yeah 😎😎)');
 });
 
-// Manually gets the data from the file upon being called (get all the queue )
-app.get("/qStatus", async (c) => {
-
+// New route to get queue by restaurant name using path parameters
+app.get("/:name", async (c) => {
     try {
-        // if smth is async ya need to add the await so it actually waits and not immdiiately runs
-        let allq = await qstatus()
+        // Extract the restaurant name from the path parameter
+        const restaurantName = c.req.param("name");
 
-        // Return success response
-        return c.json({ data: allq, type: "queue" }, 200);
-    } 
-    catch (error) {
+        if (!restaurantName) {
+            return c.json({ error: "Restaurant name is required" }, 400);
+        }
+
+        // Manually gets the data from the file upon being called (get all the queue )
+        if (restaurantName == 'all') {
+            try {
+                // if smth is async ya need to add the await so it actually waits and not immdiiately runs
+                let allq = await qstatus()
+
+                // Return success response
+                return c.json({ data: allq, type: "queue" }, 200);
+            }
+            catch (error) {
+                // Return error response
+                console.error("Request failed:", error);
+                return c.json({ error: error.message }, 500);
+            }
+        }
+        else {
+            // Fetch data from Supabase for the specified restaurant
+            const { data, error } = await supabase
+                .from(restaurantName.toLowerCase()) // Ensure the table name matches the restaurant name
+                .select("*");
+
+            if (error) {
+                throw new Error(`Supabase error: ${error.message}`);
+            }
+
+            // Return success response with the fetched data
+            return c.json({ data : data, type: "queue" }, 200);
+        }
+
+    } catch (error) {
         // Return error response
         console.error("Request failed:", error);
         return c.json({ error: error.message }, 500);
@@ -128,7 +157,7 @@ app.post("/delete", async (c) => {
 })
 
 app.post("/add", async (c) => {
-    const {restaurant, user_id, order_id } = await c.req.json();
+    const { restaurant, user_id, order_id } = await c.req.json();
 
     // Insert data into Supabase
     const { data: insertedData, error } = await supabase
