@@ -4,7 +4,7 @@ charset-normalizer==3.4.1
 click==8.1.8
 dotenv==0.9.9
 Flask==3.1.0
-Flask-Cors==3.0.10
+Flask-Cors==6.0.0
 idna==3.10
 itsdangerous==2.2.0
 Jinja2==3.1.6
