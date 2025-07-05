@@ -82,13 +82,13 @@ Switch to your branch before starting to code <br>
 
 <p align="center"><strong>UI Stack</strong></p>
 <p align="center">
-<a href="https://vitejs.dev/"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Vitejs-logo.svg" alt="Vite" height="40"/></a>&nbsp;&nbsp;
-<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="JavaScript" height="40"/></a>&nbsp;&nbsp;
-<a href="https://www.typescriptlang.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/1200px-Typescript_logo_2020.svg.png" alt="TypeScript" height="40"/></a>&nbsp;&nbsp;
+<a href="https://vitejs.dev/"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Vitejs-logo.svg" alt="Vite" width="40"/></a>&nbsp;&nbsp;
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="JavaScript" width="40"/></a>&nbsp;&nbsp;
+<a href="https://www.typescriptlang.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/1200px-Typescript_logo_2020.svg.png" alt="TypeScript" width="40"/></a>&nbsp;&nbsp;
 <a href="https://react.dev/"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React" width="40"/></a>&nbsp;&nbsp;
-<a href="https://tailwindcss.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" alt="Tailwind" height="30"/></a>&nbsp;&nbsp;
-<a href="https://ui.shadcn.com/"><img src="https://github.com/user-attachments/assets/dd2eb75e-28c6-46e5-bb11-734e9e9a04f3" alt="ShadCN" height="30"/></a>&nbsp;&nbsp;
-<a href="https://supabase.com/auth"><img src="https://www.vectorlogo.zone/logos/supabase/supabase-icon.svg" alt="Supabase" height="40"/></a>&nbsp;&nbsp;
+<a href="https://tailwindcss.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" alt="Tailwind" width="30"/></a>&nbsp;&nbsp;
+<a href="https://ui.shadcn.com/"><img src="https://github.com/user-attachments/assets/dd2eb75e-28c6-46e5-bb11-734e9e9a04f3" alt="ShadCN" width="30"/></a>&nbsp;&nbsp;
+<a href="https://supabase.com/auth"><img src="https://www.vectorlogo.zone/logos/supabase/supabase-icon.svg" alt="Supabase" width="40"/></a>&nbsp;&nbsp;
 <br>
 <i>Vite · JavaScript · TypeScript · React · Tailwind CSS · ShadCN · Supabase Auth</i>
 </p>
@@ -97,9 +97,9 @@ Switch to your branch before starting to code <br>
 <p align="center"><strong>Microservices Languages</strong></p>
 <p align="center">
 <a href="https://go.dev/"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg" alt="Golang" width="80"/></a>&nbsp;&nbsp;
-<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="JavaScript" height="40"/></a>&nbsp;&nbsp;
-<a href="https://www.typescriptlang.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/1200px-Typescript_logo_2020.svg.png" alt="TypeScript" height="40"/></a>&nbsp;&nbsp;
-<a href="https://www.python.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1024px-Python-logo-notext.svg.png" alt="Python" height="40"/></a>&nbsp;&nbsp;
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="JavaScript" width="40"/></a>&nbsp;&nbsp;
+<a href="https://www.typescriptlang.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/1200px-Typescript_logo_2020.svg.png" alt="TypeScript" width="40"/></a>&nbsp;&nbsp;
+<a href="https://www.python.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1024px-Python-logo-notext.svg.png" alt="Python" width="40"/></a>&nbsp;&nbsp;
 <br>
 <i>Golang · JavaScript · TypeScript · Python</i>
 </p>
@@ -138,9 +138,9 @@ Switch to your branch before starting to code <br>
 
 <p align="center"><strong>Storage Solutions</strong></p>  
 <p align="center">
-<a href="https://firebase.google.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Firebase_Logo.svg" alt="Firebase" height="40"/></a>&nbsp;&nbsp;
-<a href="https://cloud.google.com/storage/"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg" alt="Google Cloud Storage" height="30"/></a>&nbsp;&nbsp;
-<a href="https://supabase.com/"><img src="https://www.vectorlogo.zone/logos/supabase/supabase-icon.svg" alt="Supabase" height="55" /></a>&nbsp;&nbsp;
+<a href="https://firebase.google.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Firebase_Logo.svg" alt="Firebase" width="150"/></a>&nbsp;&nbsp;
+<a href="https://cloud.google.com/storage/"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg" alt="Google Cloud Storage" width="200"/></a>&nbsp;&nbsp;
+<a href="https://supabase.com/"><img src="https://www.vectorlogo.zone/logos/supabase/supabase-icon.svg" alt="Supabase" width="40" /></a>&nbsp;&nbsp;
 <br>
 <i>Firebase · Google Cloud Storage · Supabase</i>
 </p>
@@ -164,8 +164,8 @@ Switch to your branch before starting to code <br>
 
 <p align="center"><strong>Cloud Services</strong></p>
 <p align="center">
-<a href="https://cloud.google.com/storage/"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg" alt="Google Cloud Platform" height="30"/></a>&nbsp;&nbsp;
-<a href="https://vercel.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Vercel_logo_black.svg" alt="Vercel" height="30"/></a>&nbsp;&nbsp;
+<a href="https://cloud.google.com/storage/"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg" alt="Google Cloud Platform" width="200"/></a>&nbsp;&nbsp;
+<a href="https://vercel.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Vercel_logo_black.svg" alt="Vercel" width="150"/></a>&nbsp;&nbsp;
 <br>
 <i>Google Cloud Platform · Vercel</i>
 </p> 
@@ -173,8 +173,8 @@ Switch to your branch before starting to code <br>
 
 <p align="center"><strong>Inter-service Communications</strong></p>
 <p align="center">
-<a href="https://grpc.io/"><img src="https://grpc.io/img/logos/grpc-icon-color.png" alt="gRPC" height="60"/></a>&nbsp;&nbsp;
-<a href="https://restfulapi.net/"><img src="https://keenethics.com/wp-content/uploads/2022/01/rest-api-1.svg" alt="REST API" height="40"/></a>
+<a href="https://grpc.io/"><img src="https://grpc.io/img/logos/grpc-icon-color.png" alt="gRPC" width="60"/></a>&nbsp;&nbsp;
+<a href="https://restfulapi.net/"><img src="https://keenethics.com/wp-content/uploads/2022/01/rest-api-1.svg" alt="REST API" width="100"/></a>
 <br>
 <i>gRPC · REST API</i>
 </p> 
@@ -182,13 +182,13 @@ Switch to your branch before starting to code <br>
 
 <p align="center"><strong>DevSecOps and Site Reliability</strong></p>
 <p align="center">
-<a href="https://github.com/features/actions"><img src="https://github.com/user-attachments/assets/84046b86-7745-4ddd-8c36-b39b6a9ead91" alt="GitHub Actions" height="60"/></a>&nbsp;&nbsp;
-<a href="https://grafana.com/"><img src="https://github.com/user-attachments/assets/f35638ce-2ad1-4664-9cf1-e219222ca4f0" alt="Snyk" height="60"/></a>&nbsp;&nbsp;
-<a href="https://grafana.com/"><img src="https://github.com/user-attachments/assets/cd9f1fa6-5410-4407-81b3-d7cc28c79a75" alt="Checkov" height="60"/></a>&nbsp;&nbsp;
-<a href="https://grafana.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Grafana_logo.svg" alt="Grafana" height="60"/></a>&nbsp;&nbsp;
-<a href="https://prometheus.io/"><img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Prometheus_software_logo.svg" alt="Prometheus" height="60"/></a>&nbsp;&nbsp;
-<a href="https://www.terraform.io/"><img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Terraform_Logo.svg" alt="Terraform" height="55"/></a>&nbsp;&nbsp;
-<a href="https://argoproj.github.io/cd/"><img src="https://user-images.githubusercontent.com/25306803/43103633-a5d61dc4-8e83-11e8-9f0e-7ccdbee01eb6.png" alt="ArgoCD" height="70"/></a>&nbsp;&nbsp;
+<a href="https://github.com/features/actions"><img src="https://github.com/user-attachments/assets/84046b86-7745-4ddd-8c36-b39b6a9ead91" alt="GitHub Actions" width="60"/></a>&nbsp;&nbsp;
+<a href="https://grafana.com/"><img src="https://github.com/user-attachments/assets/f35638ce-2ad1-4664-9cf1-e219222ca4f0" alt="Snyk" width="120"/></a>&nbsp;&nbsp;
+<a href="https://grafana.com/"><img src="https://github.com/user-attachments/assets/cd9f1fa6-5410-4407-81b3-d7cc28c79a75" alt="Checkov" width="120"/></a>&nbsp;&nbsp;
+<a href="https://grafana.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Grafana_logo.svg" alt="Grafana" width="60"/></a>&nbsp;&nbsp;
+<a href="https://prometheus.io/"><img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Prometheus_software_logo.svg" alt="Prometheus" width="60"/></a>&nbsp;&nbsp;
+<a href="https://www.terraform.io/"><img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Terraform_Logo.svg" alt="Terraform" width="150"/></a>&nbsp;&nbsp;
+<a href="https://argoproj.github.io/cd/"><img src="https://user-images.githubusercontent.com/25306803/43103633-a5d61dc4-8e83-11e8-9f0e-7ccdbee01eb6.png" alt="ArgoCD" width="70"/></a>&nbsp;&nbsp;
 <br>
 <i>Github Actions · Snyk · Checkov · Grafana · Prometheus · Terraform · ArgoCD</i>
 </p> 
@@ -196,11 +196,11 @@ Switch to your branch before starting to code <br>
 
 <p align="center"><strong>Other Technologies</strong></p>
 <p align="center">
-<a href="https://stripe.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Stripe_Logo%2C_revised_2016.svg/1280px-Stripe_Logo%2C_revised_2016.svg.png" alt="Stripe Payment API" height="40"/></a>&nbsp;&nbsp;
-<a href="https://www.docker.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Docker_%28container_engine%29_logo.svg" alt="Docker" height="30"/></a>&nbsp;&nbsp;
-<a href="https://kubernetes.io/"><img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Kubernetes_logo.svg" alt="Kubernetes" height="40"/></a>&nbsp;&nbsp;
-<a href="https://openai.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg" alt="OpenAI" height="40"/></a>&nbsp;&nbsp;
-<a href="https://socket.io/"><img src="https://upload.wikimedia.org/wikipedia/commons/9/96/Socket-io.svg" alt="Socket.io" height="40"/></a>&nbsp;&nbsp;
+<a href="https://stripe.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Stripe_Logo%2C_revised_2016.svg/1280px-Stripe_Logo%2C_revised_2016.svg.png" alt="Stripe Payment API" width="150"/></a>&nbsp;&nbsp;
+<a href="https://www.docker.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Docker_%28container_engine%29_logo.svg" alt="Docker" width="150"/></a>&nbsp;&nbsp;
+<a href="https://kubernetes.io/"><img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Kubernetes_logo.svg" alt="Kubernetes" width="150"/></a>&nbsp;&nbsp;
+<a href="https://openai.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg" alt="OpenAI" width="150"/></a>&nbsp;&nbsp;
+<a href="https://socket.io/"><img src="https://upload.wikimedia.org/wikipedia/commons/9/96/Socket-io.svg" alt="Socket.io" width="40"/></a>&nbsp;&nbsp;
 </p>
 <p align="center">
 <i>StripeAPI · Docker Compose · Docker Hub · Kubernetes · OpenAI · Socket.io</i>
